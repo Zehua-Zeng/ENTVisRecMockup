@@ -39,7 +39,7 @@ function addFields(fields){
                 <div>
                     <i class="fas fa-caret-down"></i> &nbsp;
                     <i class="fas fa-hashtag"></i> &nbsp;
-                    <span> IMDB Ratings</span>
+                    <span> ${e}</span>
                     <span class="float-right">
                         <i class="fas fa-filter"></i>
                         <i class="fas fa-plus"></i></i>

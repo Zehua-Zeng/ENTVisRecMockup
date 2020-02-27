@@ -8,7 +8,7 @@
     display:inline-block;
     background-color: rgb(96, 96, 138);
     box-shadow: 0 0 7px rgba(54, 44, 73, 0.877);
-    width: 200px;
+    width: 210px;
     height: 94%;
     min-height: 750px;
     position:absolute;
@@ -36,12 +36,12 @@
     background-color: rgb(194, 194, 224);
     color:rgb(89, 74, 114) ;
     box-shadow: 0 0 10px rgba(54, 44, 73, 0.733);
-    width: 450px;
+    width: 460px;
     min-height: 750px;
     height:94%;
     position: absolute;
     z-index: 9;
-    padding:  10px 20px 0 215px;
+    padding:  10px 20px 0 225px;
     font-size: 12px;
     font-weight: bold;
 }
