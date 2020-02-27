@@ -9,7 +9,7 @@
   <script src="https://kit.fontawesome.com/d494f7bb71.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/static/css/main.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
-  <script type="text/javascript" src="../static/js/app.js"></script>
+  <!-- <script type="text/javascript" src="../static/js/app.js"></script> -->
 </head>
 
 <body>
@@ -110,45 +110,6 @@
                   </span>
                 </div>
               </li> -->
-            </ul>
-          </div>
-
-          <!-- (3) wildcard -->
-          <div class="sidebar-wildcard">
-            <h6>Wildcards</h6>
-            <ul class="wildcard_lst list-unstyled">
-              <li>
-                <div>
-                  <i class="fas fa-font"></i> &nbsp;
-                  <span>Categorical Fields</span>
-                  <span class="float-right">
-                    <i class="fas fa-plus"></i>
-                  </span>
-                </div>
-              </li>
-
-              <li>
-                <div>
-                  <i class="fas fa-calendar-alt"></i> &nbsp;
-                  <span> Temporal Fields</span>
-                  <span class="float-right">
-                    <i class="fas fa-plus"></i>
-                  </span>
-                </div>
-              </li>
-
-              <li class="trans-num-attr">
-                <div>
-                  
-                  <i class="fas fa-hashtag"></i> &nbsp;
-                  <span> Quantitative Fields</span>
-                  <span class="float-right">
-                   
-                    <i class="fas fa-plus"></i>
-                  </span>
-                </div>
-              </li>
-
             </ul>
           </div>
       </nav>
@@ -272,40 +233,33 @@
               </div>
             </div>
           </div>
-
-        </div>
-        <!-- ===== Filter ===== -->
-        <div>
-          <!-- Filter title -->
-          <div class="title_block">
-            <br>Filter
-          </div>
-          
-          <!-- Filter fields -->
-          <form>
-            <div class="form-group">
-              <select class="form-control" id="filter_options">
-                <option>Filter all invalid values</option>
-                <option>Filter invalid numbers</option>
-                <option>Show all invalid values</option>
-              </select>
-            </div>
-          </form>
-
-        </div>
-
-        
-          
+        </div> 
       </div>
 
       <!-- Page Content (specified and related) -->
       <div class="page_content">
         <div class="specified_views"> 
+          <h3>Specified Views</h3>
+          <div class="specified_main_area"> 
+            <div class="mainImg"><img class="line" src="/static/img/line_main.png"></div>
 
+            <div>
+              <button type="button" class="btn btn-light AE">Alternative Encodings</button>
+              <button type="button" class="btn btn-light AC">Add Categorical</button>
+              <button type="button" class="btn btn-light AQ">Add Quantitative</button>
+            </div>
+
+          </div>
         </div>
 
         <div class="related_views"> 
-
+          <h4>Related Views</h4>
+          <div class="related_main_area">
+            <img class="line" src="/static/img/scatter_main.png">
+            <img class="dash" src="/static/img/dash_main.png">
+            <img class="bar" src="/static/img/bar_main.png">
+            <img class="area" src="/static/img/area_main.png">
+          </div>
         </div>
       </div>
     </div>

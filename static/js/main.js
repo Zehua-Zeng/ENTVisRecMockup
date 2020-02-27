@@ -5,7 +5,11 @@ var Fields = {
     trans_quant: ["IMDB Rating","IMDB Votes", "Production Budget","Rotten Tomatoes", "Running Time min","US DVD Sales","US Gross","Worldwide Gross"],
     quant: ["COUNT"]
 };
+
+var encodings=["line","scatter","dash","bar","area"];
 var fieldLst = document.querySelector(".attr-lst");
+var mainImg = document.querySelector(".mainImg");
+var relatedImg = document.querySelector(".related_main_area");
 
 // a helper function that put all attrbutes to field list on sidenav.
 function addFields(fields){
@@ -68,4 +72,74 @@ function initField(fields){
     addFields(fields);
 };
 
+// [TODO] need to fix dynamic coding, so do not use this helper func any more.
+//  this function add event listener to all images of [Related views] 
+// currently I am using this when updating new images to [Related views].
+function addEL(){
+    for(img of document.querySelectorAll(".related_views img")){
+        img.addEventListener("click",switchEncoding);
+    }
+}
+
+// display related encoding views when clicking [Alternative Encoding] button
+function alternativeEncoding(){
+    let name = mainImg.querySelector("img").className;
+    let res="";
+    for ( e of encodings ) {
+        if(e!=name){
+            res+=`<img class= '${e}' src="/static/img/${e}_main.png">`;
+        }
+    }
+    relatedImg.innerHTML=res;
+    addEL();
+}
+
+// display related categorical views when clicking [Add Categorical] button
+function addingCategorical(){
+    let name = mainImg.querySelector("img").className;
+    let res="";
+    for (i of [1,2,3]) {
+        res += `<img class= '${name}' src="/static/img/${name+'_categorical_'+i}.png">`;
+    }
+    relatedImg.innerHTML=res;
+    addEL();
+}
+
+function addingQuantitative(){
+    let name = mainImg.querySelector("img").className;
+    let res="";
+    for (i of [1,2,3]) {
+        res += `<img class= '${name}' src="/static/img/${name+'_quantitative_'+i}.png">`;
+    }
+    relatedImg.innerHTML=res;
+    addEL();
+}
+
+function switchEncoding (e){
+    let name = mainImg.querySelector("img").className;
+    if(e.target.src.includes('main')){
+        let target = e.target.className;
+        let target_src = e.target.src;
+        // swap class of 2 images
+        mainImg.querySelector("img").className=target;
+        e.target.className = name;
+        //swap srcs
+        e.target.src= mainImg.querySelector("img").src;
+        mainImg.querySelector("img").src= target_src;
+        addEL();
+    }
+    
+}
+
+
 initField(Fields);
+alternativeEncoding();
+addEL();
+
+document.querySelector(".AE").addEventListener("click",alternativeEncoding);
+
+document.querySelector(".AC").addEventListener("click",addingCategorical);
+
+document.querySelector(".AQ").addEventListener("click",addingQuantitative);
+
+
