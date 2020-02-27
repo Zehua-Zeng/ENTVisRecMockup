@@ -1,7 +1,3 @@
-// var categoricalFields = ["Creative Type","Director","Distributor","Major Genre","MPAA Rating","Source","Title"];
-// var dateFields = ["Release Date"];
-// var translatable_numericFields = ["IMDB Rating","IMDB Votes", "Production Budget","Rotten Tomatoes", "Running Time min","US DVD Sales","US Gross","Worldwide Gross"];
-// var numericFields = ["COUNT"];
 
 var Fields = {
     cate: ["Creative Type","Director","Distributor","Major Genre","MPAA Rating","Source","Title"],

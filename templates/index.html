@@ -14,7 +14,7 @@
 
 <body>
   <!-- Navbar -->
-  <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+  <nav class="main_nav navbar sticky-top navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand mb-0 h1" href="#"><i class="fas fa-database"></i>&nbsp;ENTVisRecMockup</a>
     <!-- collapse button that hide all options on nav bar when screen gets narrower -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,11 +42,13 @@
       </form> -->
     </div>
   </nav>
+
+  <!-- Main contents of the page, includes sideNavs and page contents -->
   <main>
-    
     <div class="wrapper">
-      <!-- Sidebar -->
-      <nav id="sidebar">
+
+      <!-- =========== Sidebar1 ============ -->
+      <nav id="sidebar1">
           <!-- (1) Sidebar data -->
           <div class="sidebar-datablock">
               <h6>Data</h6>
@@ -149,17 +151,165 @@
 
             </ul>
           </div>
-         
-  
       </nav>
-      <!-- Page Content -->
-      <div id="content">
-        <ul id="wildcard_lst">
+
+      <!-- =========== Sidebar2 ============ -->
+      <div id="sidebar2">
+        <!-- ===== Encoding ===== -->
+        <div>
+          <!-- encoding title -->
+          <div class="title_block">
+            Encoding
+            <span class="float-right">
+              <i class="fas fa-trash-alt"></i> &nbsp;Clear
+            </span>
+          </div>
           
-        </ul>
+          <!-- encoding fields -->
+          <div>
+            <div class="outter">
+              X 
+              <div class="float-right">
+                <i class="fas fa-caret-down"></i> &nbsp;
+                <i class="fas fa-calendar-alt"></i> &nbsp;
+                <span class="bold">MONTH</span>(Release
+                <span class="float-right">&nbsp;<i class="fas fa-times"></i></span>
+              </div>
+            </div>
+
+            <div class="outter">
+              Y
+              <div class="float-right">
+                  &nbsp; &nbsp; 
+                  <i class="fas fa-hashtag"></i> &nbsp;
+                <span class="bold">MONTH</span>(Release
+                <span class="float-right">&nbsp;<i class="fas fa-times"></i></span>
+              </div>
+            </div>
+
+            <div class="outter ">
+              column 
+              <div class="none_field float-right">
+                drop a field here
+              </div>
+            </div>
+
+            <div class="outter ">
+              row 
+              <div class="none_field float-right">
+                drop a field here
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <!-- ===== Marks ===== -->
+        <div>
+          <!-- Marks title -->
+          <div class="title_block">
+            Marks
+            <!-- <span class="float-right">
+            <button>auto</button> 
+            </span> -->
+          </div>
+          
+          <!-- Marks fields -->
+          <div>
+            <div class="outter ">
+              size
+              <div class="none_field float-right">
+                drop a field here
+              </div>
+            </div>
+
+            <div class="outter ">
+              color 
+              <div class="none_field float-right">
+                drop a field here
+              </div>
+            </div>
+
+            <div class="outter ">
+              shape
+              <div class="none_field float-right">
+                drop a field here
+              </div>
+            </div>
+
+            <div class="outter ">
+              detail
+              <div class="none_field float-right">
+                drop a field here
+              </div>
+            </div>
+
+            <div class="outter ">
+              text
+              <div class="none_field float-right">
+                drop a field here
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Any -->
+        <div>
+          <!-- Other(any) -->
+          <div class="title_block">
+            &nbsp;
+            
+          </div>
+          
+          <!-- Other field -->
+          <div>
+            <div class="outter">
+              any
+              <div class="none_field float-right">
+                drop a field here
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- ===== Filter ===== -->
+        <div>
+          <!-- Filter title -->
+          <div class="title_block">
+            <br>Filter
+          </div>
+          
+          <!-- Filter fields -->
+          <form>
+            <div class="form-group">
+              <select class="form-control" id="filter_options">
+                <option>Filter all invalid values</option>
+                <option>Filter invalid numbers</option>
+                <option>Show all invalid values</option>
+              </select>
+            </div>
+          </form>
+
+        </div>
+
+        
           
       </div>
-  </div>
+
+      <!-- Page Content (specified and related) -->
+      <div class="page_content">
+        <div class="specified_views"> 
+
+        </div>
+
+        <div class="related_views"> 
+
+        </div>
+      </div>
+    </div>
+
   </main>
   <script src="/static/js/main.js"></script>
   <!-- Bootstrap JS -->
