@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- bootstrap CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/d494f7bb71.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../static/css/v1.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+  <!-- <script type="text/javascript" src="../static/js/app.js"></script> -->
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="main_nav navbar sticky-top navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand mb-0 h1" href="#"><i class="fas fa-database"></i>&nbsp;ENTVisRecMockup</a>
+    <!-- collapse button that hide all options on nav bar when screen gets narrower -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- contents of nav (can be collapsed)-->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+
+
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">
+            <i class="fas fa-database"></i>&nbsp;
+            <b>selected data:</b>&nbsp;Movies</a>
+        </li>
+
+        <li>
+          <a class="nav-link" href="#">change </a>
+        </li>
+
+        <li class="nav-item active back_to_index">
+          <a class="nav-link" href="/"><i class="fas fa-undo-alt"></i> &nbsp; Return to Index </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main contents of the page, includes sideNavs and page contents -->
+  <main>
+    <div class="wrapper">
+
+      <!-- =========== Sidebar1 ============ -->
+      <nav id="sidebar1">
+        <!-- (1) Sidebar data -->
+        <div class="sidebar-datablock">
+          <h6>Data</h6>
+          <p>
+            <i class="fas fa-database"></i> &nbsp;<span id="dbName">Movies</span>
+            <button class="float-right">Change</button>
+          </p>
+        </div>
+
+        <!-- (2) sidebar fields -->
+        <div class="sidebar-fields">
+          <h6>Fields</h6>
+          <!-- fields of attributes are here -->
+
+          <!-- List of Attrs here (contains templates to different attr types) -->
+          <ul class="attr-lst list-unstyled">
+
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Page Content (specified and related) -->
+      <div class="page_content">
+        <div class="specified_views">
+          <h3>Specified Views</h3>
+          <div class="specified_main_area">
+            <div class="mainImg"><img class="line" src="../static/img/line_main.png"></div>
+
+            <div>
+              <button type="button" class="btn btn-light AE">Alternative Encodings</button>
+              <button type="button" class="btn btn-light AC">Add Categorical</button>
+              <button type="button" class="btn btn-light AQ">Add Quantitative</button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="related_views">
+          <h4>Related Views</h4>
+          <div class="related_main_area">
+            <img class="line" src="../static/img/scatter_main.png">
+            <img class="dash" src="../static/img/dash_main.png">
+            <img class="bar" src="../static/img/bar_main.png">
+            <img class="area" src="../static/img/area_main.png">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <script src="/js/v1.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+
+</body>
+
+</html>

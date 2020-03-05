@@ -1,0 +1,105 @@
+.wrapper {
+    display: flex;
+}
+
+.back_to_index {
+    float: left !important;
+    padding-left: 60vw !important;
+}
+
+.back_to_index a {
+    color: rgb(52, 31, 172) !important;
+    font-weight: bold;
+    background-color: rgb(187, 195, 241);
+    padding: 12px !important;
+    border-radius: 5px;
+}
+
+.back_to_index a:hover {
+    background-color: rgb(170, 179, 231);
+}
+
+/* ============== sideNav#1 styling =============== */
+#sidebar1 {
+    display: inline-block;
+    background-color: rgb(96, 96, 138);
+    box-shadow: 0 0 7px rgba(54, 44, 73, 0.877);
+    width: 210px;
+    height: 94%;
+    min-height: 750px;
+    position: absolute;
+    z-index: 10;
+    color: white;
+    padding: 10px;
+    font-size: 12px;
+}
+
+/* field & wildcard list on sidenav */
+#sidebar1 li {
+    background-color: rgba(164, 152, 201, 0.644);
+    padding: 3px 10px 3px 28px;
+    cursor: grab;
+    margin: 5px 0;
+    border-radius: 3px;
+}
+
+#sidebar1 .trans-quant-attr {
+    padding: 3px 10px;
+}
+
+
+
+/* ============= Main Page Content styling ================ */
+.page_content {
+    background-color: rgb(229, 229, 250);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    padding: 10px 0 0 300px;
+    color: rgb(89, 74, 114);
+    /* color: blueviolet; */
+
+}
+
+/*  ==== Specified Views ==== */
+.specified_main_area {
+    display: inline-flex;
+    width: 300px;
+    margin: 10px 30%;
+}
+
+.specified_main_area div {
+    color: blue;
+    width: 200px;
+    display: inline-block;
+    margin: 30px;
+}
+
+.specified_main_area div button {
+    margin: 7px 10px;
+    width: 200px;
+    padding: 15px;
+}
+
+
+/* ====== Relative Views ====== */
+img {
+    cursor: pointer;
+}
+
+.page_content .related_views {
+    background-color: rgb(210, 206, 238);
+    box-shadow: 0 0 5px rgba(131, 112, 167, 0.555);
+    width: 95%;
+    height: 40%;
+    margin: 50px 30px 20px 30px;
+    padding: 10px 0 0 10px;
+}
+
+.related_main_area {
+    margin: 10px 120px;
+}
+
+.related_main_area img {
+    margin: 10px 25px;
+}
