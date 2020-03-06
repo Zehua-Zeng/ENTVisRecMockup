@@ -1,0 +1,35 @@
+Which the recommendation strategy will help chart creation the most?
+Voyager has a narrow definition of data exploration
+Insight discovery (Forsight, SeeDB) - depth first
+Data coverage (Voyager) - breadth first
+
+we can compare the breadth first (voyager) and depth first (show full path but different directions)
+
+after the interview, asking:
+What other tasks you think you can do with the current recommendation system?
+
+Three level of controls:
+- No recommendations at all (no grouping strategies)
+- People can add fields
+- No control at all
+
+
+Different grouping strategies:
+
+- design complexity (# of encodings)
+- random / 1 group (Vizdeck / Tableau)
+- task type (harder)
+- visualization type (line chart, bar chart, ...)
+- attribute type (voyager)
+- progression of chart variation / complexity (sequence grouping?)
+
+breadth first (voyager)
+depth first 1 (polestar)
+depth first 2 (progression of charts)
+
+5 in total 
+1. polestar (clicking on field, checkbox, auto pick encodings)
+2. polestar + breath first
+3. polestar + depth first
+4. breath first
+5. depth first
