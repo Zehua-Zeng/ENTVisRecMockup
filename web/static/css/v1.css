@@ -1,43 +1,20 @@
+body {
+    background-color: rgb(229, 229, 250);
+}
+
 .wrapper {
     display: flex;
 }
 
-.back_to_index {
-    float: left !important;
-    padding-left: 60vw !important;
-}
-
-.back_to_index a {
-    color: rgb(52, 31, 172) !important;
-    font-weight: bold;
-    background-color: rgb(187, 195, 241);
-    padding: 12px !important;
-    border-radius: 5px;
-}
-
-.back_to_index a:hover {
-    background-color: rgb(170, 179, 231);
-}
-
-/* ============== sideNav#1 styling =============== */
-#sidebar1 {
-    display: inline-block;
-    background-color: rgb(96, 96, 138);
-    box-shadow: 0 0 7px rgba(54, 44, 73, 0.877);
-    width: 210px;
-    height: 94%;
-    min-height: 750px;
-    position: absolute;
-    z-index: 10;
-    color: white;
-    padding: 10px;
-    font-size: 12px;
+.data_display {
+    padding-top: 100px !important;
 }
 
 /* field & wildcard list on sidenav */
 #sidebar1 li {
     background-color: rgba(164, 152, 201, 0.644);
     padding: 3px 10px 3px 28px;
+
     cursor: grab;
     margin: 5px 0;
     border-radius: 3px;
@@ -48,16 +25,14 @@
 }
 
 
-
 /* ============= Main Page Content styling ================ */
 .page_content {
     background-color: rgb(229, 229, 250);
     width: 100%;
     height: 100%;
     position: fixed;
-    padding: 10px 0 0 300px;
+    padding: 30px 0 0 30px;
     color: rgb(89, 74, 114);
-    /* color: blueviolet; */
 
 }
 
@@ -82,16 +57,16 @@
 }
 
 
-/* ====== Relative Views ====== */
+/* ====== Related Views ====== */
 img {
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .page_content .related_views {
     background-color: rgb(210, 206, 238);
     box-shadow: 0 0 5px rgba(131, 112, 167, 0.555);
     width: 95%;
-    height: 40%;
+    min-height: 60%;
     margin: 50px 30px 20px 30px;
     padding: 10px 0 0 10px;
 }
@@ -102,4 +77,146 @@ img {
 
 .related_main_area img {
     margin: 10px 25px;
+}
+
+
+/* ============== !!! Following are the styling when some specified chart is selected !!! ============== */
+
+.alt_page_content {
+    background-color: rgb(229, 229, 250);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    /* padding: 30px 0 0 30px; */
+
+}
+
+/* ========= specified content =========== */
+.alt_specified {
+    display: inline-block;
+    background-color: rgb(189, 189, 228);
+    box-shadow: 0 0 7px rgba(36, 22, 61, 0.877);
+    width: 400px;
+    height: 94%;
+    min-height: 750px;
+    position: absolute;
+    z-index: 10;
+    color: rgb(78, 61, 105);
+    padding: 20px 20px;
+    font-size: 12px;
+}
+
+#specified {
+    width: 85%;
+    max-height: 90%;
+    /* display: blcok; */
+    padding: 25px 0;
+    margin: 0 auto;
+}
+
+.alt_specified #buttons button {
+    display: block;
+    width: 200px;
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.return {
+    background-color: rgb(95, 101, 160) !important;
+    color: cornsilk;
+    border-color: rgb(95, 101, 160) !important;
+    display: block;
+    font-size: 20px;
+    width: 250px;
+    margin: 40px auto 0;
+    padding: 10px;
+}
+
+.return:hover {
+    background-color: rgb(82, 89, 153) !important;
+    color: cornsilk;
+    box-shadow: 0 0 3px darkblue;
+}
+
+/* ============= related content================ */
+.alt_related {
+    background-color: rgb(229, 229, 250);
+    width: 100%;
+    height: 100%;
+    padding: 20px 30px 100px 450px;
+    color: rgb(89, 74, 114);
+    overflow: auto;
+}
+
+.alt_related h3 {
+    padding-bottom: 10px;
+}
+
+.alt_related h5 {
+    padding: 10px 0;
+}
+
+.cate {
+    background-color: rgb(219, 219, 241);
+    padding: 0px 20px 20px;
+}
+
+
+
+.quant {
+    background-color: rgb(219, 219, 241);
+    padding: 0px 20px 20px;
+}
+
+
+/* ============================= !!! Styling for the index page !!! ===================================== */
+
+#index {
+    /* display: block; */
+    /* background-color: darkblue; */
+    width: fit-content;
+    margin: 5vh auto;
+    font-size: 20px;
+    color: rgb(82, 63, 148);
+}
+
+#index h1 {
+    position: static;
+    color: rgb(82, 63, 148);
+    /* left: 26%; */
+}
+
+#index ul {
+    color: purple;
+    list-style-type: none;
+}
+
+#index li {
+    padding: 5px;
+}
+
+#index a:hover {
+    color: purple;
+}
+
+#index a {
+    color: rgb(38, 0, 128);
+}
+
+.back_to_index {
+    float: left !important;
+    padding-left: 60vw !important;
+}
+
+.back_to_index a {
+    color: rgb(52, 31, 172) !important;
+    font-weight: bold;
+    background-color: rgb(187, 195, 241);
+    padding: 12px !important;
+    border-radius: 5px;
+}
+
+.back_to_index a:hover {
+    background-color: rgb(170, 179, 231);
 }

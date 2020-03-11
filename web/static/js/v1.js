@@ -1,138 +1,81 @@
-var Fields = {
-    cate: ["Creative Type", "Director", "Distributor", "Major Genre", "MPAA Rating", "Source", "Title"],
-    date: ["Release Date"],
-    trans_quant: ["IMDB Rating", "IMDB Votes", "Production Budget", "Rotten Tomatoes", "Running Time min", "US DVD Sales", "US Gross", "Worldwide Gross"],
-    quant: ["COUNT"]
-};
-
-var encodings = ["line", "scatter", "dash", "bar", "area"];
-var fieldLst = document.querySelector(".attr-lst");
-var mainImg = document.querySelector(".mainImg");
+var graphMap = {
+    "graph1": ["point", "tick", "bar"],
+    "graph2": ["point", "tick", "bar", "line", "area"],
+    "graph3": ["point", "tick", "bar", "line", "area"]
+}
+var mainImg = document.querySelector(".specified_main_area");
+var msg = document.querySelector(".msg");
 var relatedImg = document.querySelector(".related_main_area");
 
-// a helper function that put all attrbutes to field list on sidenav.
-function addFields(fields) {
-    let res = "";
-    for (e of fields.cate) {
-        res += `<li class="cate-attr">
-                <div>
-                    <i class="fas fa-font"></i> &nbsp;
-                    <span> ${e} </span>
-                    <span class="float-right">
-                        <i class="fas fa-plus"></i></i>
-                    </span>
-                </div>
-            </li>`;
-    }
-    for (e of fields.date) {
-        res += `<li class="cate-attr">
-                <div>
-                    <i class="fas fa-calendar-alt"></i> &nbsp;
-                    <span> ${e} </span>
-                    <span class="float-right">
-                        <i class="fas fa-plus"></i></i>
-                    </span>
-                </div>
-            </li>`;
-    }
-    for (e of fields.trans_quant) {
-        res += `<li class="trans-quant-attr">
-                <div>
-                    <i class="fas fa-caret-down"></i> &nbsp;
-                    <i class="fas fa-hashtag"></i> &nbsp;
-                    <span> ${e}</span>
-                    <span class="float-right">
-                        <i class="fas fa-plus"></i></i>
-                    </span>
-                </div>
-            </li>`;
-    }
-    for (e of fields.quant) {
-        res += `<li class="quant-attr">
-                <div>
-                    <i class="fas fa-hashtag"></i> &nbsp;
-                    <span> COUNT</span>
-                    <span class="float-right">
-                        <i class="fas fa-plus"></i></i>
-                    </span>
-                </div>
-            </li>`;
-    }
-    fieldLst.innerHTML += res;
+// this function init main page (display recommanded views and)
+function init() {
+    // hide the alt view and display the inital view
+    document.querySelector(".alt_page_content").style.display = "none";
+    document.querySelector(".page_content").style.display = "initial";
+
+    // document.querySelector(".alt_page_content").style.display = "initial";
+    // document.querySelector(".page_content").style.display = "hide";
+    relatedImg.innerHTML = `<img class="bar rec" id="graph1" src="/img/version1/graph1_bar_main_1.png">
+                            <img class="bar rec" id="graph2" src="/img/version1/graph2_bar_main_1.png">
+                            <img class="line rec"  id="graph3" src="/img/version1/graph3_line_main_1.png">`;
+    msg.innerHTML = `No specified visualization yet. Start exploring by dragging a field to encoding pane on the left or
+    examining univariate summaries below.`;
+
+    addEL();
 }
 
-// does what it said.. it init the field list on sidenav.
-function initField(fields) {
-    fieldLst.innerHTML = '';
-    addFields(fields);
-};
-
-// [TODO] need to fix dynamic coding, so do not use this helper func any more.
-//  this function add event listener to all images of [Related views] 
-// currently I am using this when updating new images to [Related views].
 function addEL() {
-    for (img of document.querySelectorAll(".related_views img")) {
-        img.addEventListener("click", switchEncoding);
-    }
+    Array.prototype.forEach.call(document.querySelectorAll(".rec"), function (item) {
+        item.addEventListener("click", specified);
+    });
 }
 
-// display related encoding views when clicking [Alternative Encoding] button
-function alternativeEncoding() {
-    let name = mainImg.querySelector("img").className;
-    let res = "";
-    for (e of encodings) {
-        if (e != name) {
-            res += `<img class= '${e}' src="/static/img/${e}_main.png">`;
-        }
-    }
-    relatedImg.innerHTML = res;
-    addEL();
-}
+function specified(e) {
+    let target = e.target;
+    let encoding = target.classList[0],
+        src = e.target.src,
+        id = e.target.id;
+    // hide original view and display the alternative one
+    document.querySelector(".page_content").style.display = "none";
+    document.querySelector(".alt_page_content").style.display = "initial"
 
-// display related categorical views when clicking [Add Categorical] button
-function addingCategorical() {
-    let name = mainImg.querySelector("img").className;
-    let res = "";
-    for (i of [1, 2, 3]) {
-        res += `<img class= '${name}' src="/static/img/${name+'_categorical_'+i}.png">`;
-    }
-    relatedImg.innerHTML = res;
-    addEL();
-}
+    // render the specified views
+    renderSpecified(encoding, src, id);
+    // add event listener to back button
+    document.querySelector(".return").addEventListener("click", () => init());
+    // TODO: add event listener to alternative encoding buttons
 
-function addingQuantitative() {
-    let name = mainImg.querySelector("img").className;
-    let res = "";
-    for (i of [1, 2, 3]) {
-        res += `<img class= '${name}' src="/static/img/${name+'_quantitative_'+i}.png">`;
-    }
-    relatedImg.innerHTML = res;
-    addEL();
-}
 
-function switchEncoding(e) {
-    let name = mainImg.querySelector("img").className;
-    if (e.target.src.includes('main')) {
-        let target = e.target.className;
-        let target_src = e.target.src;
-        // swap class of 2 images
-        mainImg.querySelector("img").className = target;
-        e.target.className = name;
-        //swap srcs
-        e.target.src = mainImg.querySelector("img").src;
-        mainImg.querySelector("img").src = target_src;
-        addEL();
-    }
+    // render the related views
+    renderRelated(encoding, id);
+
 
 }
 
+// helper function that renders the specified views when page is loaded.
+function renderSpecified(cls, src, id) {
+    // add correct specified image by class
+    document.querySelector("#specified").innerHTML = `<img class="${cls}" src="${src}" width=100% height=100%>`;
+    // add corresponding buttons    
+    let btns = `<h5>Alternative Encodings</h5>`;
+    for (e of graphMap[id]) {
+        btns += `<button class="btn btn-light " id="${e}">${e}</button>`;
+    }
+    document.querySelector("#buttons").innerHTML = btns;
 
-initField(Fields);
-alternativeEncoding();
-addEL();
+    // add event listener to alternative encoding buttons
+    for (e of document.querySelectorAll("#buttons button")) {
+        e.addEventListener("click", (e) => renderRelated(e.target.id, id));
+    }
+}
 
-document.querySelector(".AE").addEventListener("click", alternativeEncoding);
+// helper function that renders the related views when page is loaded.
+function renderRelated(id, graph) {
+    document.querySelector("#specified").innerHTML = `<img class="${id}" src="/img/version1/${graph}_${id}_main.png" width=100% height=100%>`;
+    document.querySelector("#cate_img").innerHTML = `<img src="/img/version1/${graph}_${id}_category.png" width="100%">`;
+    document.querySelector("#quant_img").innerHTML = `<img src="/img/version1/${graph}_${id}_quant.png" width="100%">`;
+}
 
-document.querySelector(".AC").addEventListener("click", addingCategorical);
+init();
 
-document.querySelector(".AQ").addEventListener("click", addingQuantitative);
+// document.querySelector(".page_content").style.display = "none";
