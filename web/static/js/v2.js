@@ -7,10 +7,19 @@ var Fields = {
 
 var enabled = ["Source", "MPAA Rating", "IMDB Votes", "Production Budget", "Release Date"];
 
+var combinations = ["MPAARating", "MPAARating_Source", "MPAARating_ReleaseDate_Source", "IMDBVotes_MPAARating_ReleaseDate",
+    "IMDBVotes_MPAARating_ReleaseDate_Source", "MPAARating_ReleaseDate", "IMDBVotes_MPAARating_ProductionBudget_ReleaseDate",
+    "IMDBVotes_MPAARating_ProductionBudget_ReleaseDate", "IMDBVotes_MPAARating", "IMDBVotes_MPAARating_ProductionBudget", "MPAARating_ProductionBudget",
+    "Source", "ReleaseDate_Source", "IMDBVotes_ReleaseDate_Source", "ReleaseDate_ProductionBudget_Source", "IMDBVotes_Source", "IMDBVotes_Source_ProductionBudget",
+    "ReleaseDate", "IMDBVotes_ReleaseDate", "IMDBVotes_ProductionBudget_ReleaseDate_Source", "ProductionBudget_ReleaseDate", "IMDBVotes_ProductionBudget_ReleaseDate",
+    "IMDBVotes", "ProductionBudget", "IMDBVotes_ProductionBudget", "MPAARating_ProductionBudget_ReleaseDate_Source"
+];
+
 /*var encodings = ["line", "scatter", "dash", "bar", "area"];*/
 var fieldLst = document.querySelector(".attr-lst");
 var mainImg = document.querySelector(".mainImg");
 /* var relatedImg = document.querySelector(".related_main_area");*/
+var checkedBoxes = [];
 
 // followings are some disabled teamplates and fiunctions for sidenav fields (ignore for now, fold it if you can)
 
@@ -205,11 +214,53 @@ function addFields(fields) {
 function initField(fields) {
     fieldLst.innerHTML = '';
     addFields(fields);
+
+    //adding event listeners to field labels
+    let a = document.querySelectorAll("form .enabled div");
+    for (i of a) {
+        i.addEventListener("click", (e) => {
+            let box = e.target.querySelector("input");
+            if (box != null) box.checked = !box.checked;
+        })
+    }
 };
 
+// this function is called by submitting the selected fields on the sidenav
 function readFields() {
-    alert("Submitted!");
+    let allCheckboxes = document.querySelectorAll("form .enabled input");
+    let checkedValues = [];
+    let selectedBoxes = [];
+    let i = 0;
+    // collect selected fields
+    for (box of allCheckboxes) {
+        if (box.checked) {
+            selectedBoxes[i] = box;
+            checkedValues[i] = box.value.split(" ").join('');
+            i++;
+        }
+    }
+    checkedValues.sort();
+    // generate chart
+    let str = checkedValues.join("_");
+    if (combinations.includes(str)) {
+        mainImg.innerHTML = `<img src="/img/version2/${str}.png" width="100%">`;
+        // save the changes if we succeed
+        checkedBoxes = selectedBoxes;
+    } else {
+        // if the selection is not applicable, revert selections to previous one.
+        alert(`Can not generate chart with such fields, unavailable selections has been reverted.`);
+        revertSelections(checkedBoxes);
+    }
+
     return false;
 }
 
+
+function revertSelections(checkedBoxes) {
+    let allCheckboxes = document.querySelectorAll("form .enabled input");
+    for (box of allCheckboxes) {
+        if (checkedBoxes.includes(box)) box.checked = true;
+        else box.checked = false;
+    }
+}
 initField(Fields);
