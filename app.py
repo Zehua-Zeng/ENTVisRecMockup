@@ -25,10 +25,10 @@ def v2():
 def v4():
     return render_template("v4.html")
 
-# send static files from directory (img for v1)
-@app.route('/img/version1/<path:filename>')
-def send_imgv1(filename):
-    return send_from_directory('web/static/img/version1', filename)
+# send static files from directory (data)
+@app.route('/data/<path:filename>')
+def send_data(filename):
+    return send_from_directory('web/static/data', filename)
 
 # send static files from directory (img for v2)
 @app.route('/img/version2/<path:filename>')
@@ -52,4 +52,4 @@ def send_css(filename):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8093, debug=True)
+    app.run(host='0.0.0.0', port=8094, debug=True)

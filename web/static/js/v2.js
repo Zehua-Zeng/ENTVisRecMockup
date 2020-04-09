@@ -142,7 +142,7 @@ function readFields() {
     // generate chart
     let str = checkedValues.join("_");
     if (combinations.includes(str)) {
-        mainImg.innerHTML = `<img src="/img/version1/${str}.png" >`;
+        mainImg.innerHTML = `<img src="/img/version2/${str}.png" >`;
         relImg.innerHTML = `<img src="/img/version2/${str}_rv.png" style="width: 100%; height: 100%;" />`;
         // save the changes if we succeed
         checkedBoxes = selectedBoxes;

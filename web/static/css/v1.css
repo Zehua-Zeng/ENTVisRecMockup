@@ -1,5 +1,6 @@
 .wrapper {
   display: flex;
+  width: 100%;
 }
 
 .back_to_index {
@@ -80,55 +81,24 @@
 .page_content {
   background-color: rgb(229, 229, 250);
   width: 100%;
-  height: 100%;
-  position: fixed;
+  height: 93.2vh;
+  position: relative;
   padding: 10px 0 0 300px;
   color: rgb(89, 74, 114);
-  /* color: blueviolet; */
+  overflow: scroll;
 }
 
 /*  ==== Specified Views ==== */
 .specified_main_area {
   display: inline-flex;
   display: block;
-  max-width: 90%;
   margin: 30px auto;
 }
 
 .specified_main_area div {
   color: rgb(83, 56, 146);
   font-size: 17px;
-
-  max-width: 90%;
-  min-width: 30%;
+  /* min-width: 30%; */
   display: inline-block;
   margin: auto;
 }
-
-.specified_main_area div button {
-  margin: 7px 10px;
-  width: 200px;
-  padding: 15px;
-}
-
-/* ====== Relative Views (ignored for now) ====== */
-/* img {
-  cursor: pointer;
-}
-
-.page_content .related_views {
-  background-color: rgb(210, 206, 238);
-  box-shadow: 0 0 5px rgba(131, 112, 167, 0.555);
-  width: 95%;
-  height: 40%;
-  margin: 50px 30px 20px 30px;
-  padding: 10px 0 0 10px;
-}
-
-.related_main_area {
-  margin: 10px 120px;
-}
-
-.related_main_area img {
-  margin: 10px 25px;
-} */

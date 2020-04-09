@@ -1,0 +1,24 @@
+{
+  "name": "entvisrecmockup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "v1.js",
+  "dependencies": {
+    "compassql": "^0.21.2",
+    "yarn": "^1.22.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zehua-Zeng/ENTVisRecMockup.git"
+  },
+  "author": "Zehua Zeng, Minhui Xie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zehua-Zeng/ENTVisRecMockup/issues"
+  },
+  "homepage": "https://github.com/Zehua-Zeng/ENTVisRecMockup#readme"
+}

@@ -1,148 +1,69 @@
+var cql = require("compassql");
+
 var Fields = {
-    cate: ["MPAA Rating", "Source", "Creative Type", "Director", "Distributor", "Major Genre", "Title"],
+    cate: [
+        "MPAA Rating",
+        "Source",
+        "Creative Type",
+        "Director",
+        "Distributor",
+        "Major Genre",
+        "Title",
+    ],
     date: ["Release Date"],
-    trans_quant: ["IMDB Rating", "IMDB Votes", "Production Budget", "Rotten Tomatoes", "Running Time min", "US DVD Sales", "US Gross", "Worldwide Gross"],
-    quant: ["COUNT"]
+    trans_quant: [
+        "IMDB Rating",
+        "IMDB Votes",
+        "Production Budget",
+        "Rotten Tomatoes",
+        "Running Time min",
+        "US DVD Sales",
+        "US Gross",
+        "Worldwide Gross",
+    ],
 };
 
-var enabled = ["Source", "MPAA Rating", "IMDB Votes", "Production Budget", "Release Date"];
+var types = {
+    MPAARating: "ordinal",
+    Source: "nominal",
+    CreativeType: "nominal",
+    Director: "nominal",
+    Distributor: "nominal",
+    MajorGenre: "nominal",
+    Title: "nominal",
+    ReleaseDate: "date",
+    IMDBRating: "ordinal",
+    IMDBVotes: "quantitative",
+    ProductionBudget: "quantitative",
+    RottenTomatoes: "ordinal",
+    RunningTimemin: "quantitative",
+    USDVDSales: "quantitative",
+    USGross: "quantitative",
+    WorldwideGross: "quantitative",
+    COUNT: "quantitative",
+};
 
-var combinations = ["MPAARating", "MPAARating_Source", "MPAARating_ReleaseDate_Source", "IMDBVotes_MPAARating_ReleaseDate", "MPAARating_ProductionBudget_ReleaseDate",
-    "IMDBVotes_MPAARating_ReleaseDate_Source", "MPAARating_ReleaseDate", "IMDBVotes_MPAARating_ProductionBudget_ReleaseDate", "IMDBVotes_MPAARating_ProductionBudget_Source", "IMDBVotes_MPAARating_Source",
-    "IMDBVotes_MPAARating_ProductionBudget_ReleaseDate", "IMDBVotes_MPAARating", "IMDBVotes_MPAARating_ProductionBudget", "MPAARating_ProductionBudget", "MPAARating_ProductionBudget_Source",
-    "Source", "ReleaseDate_Source", "IMDBVotes_ReleaseDate_Source", "ReleaseDate_ProductionBudget_Source", "IMDBVotes_Source", "IMDBVotes_Source_ProductionBudget",
-    "ReleaseDate", "IMDBVotes_ReleaseDate", "IMDBVotes_ProductionBudget_ReleaseDate_Source", "ProductionBudget_ReleaseDate", "IMDBVotes_ProductionBudget_ReleaseDate", "IMDBVotes_ProductionBudget_Source",
-    "IMDBVotes", "ProductionBudget", "ProductionBudget_Source", "IMDBVotes_ProductionBudget", "ProductionBudget_ReleaseDate_Source", "MPAARating_ProductionBudget_ReleaseDate_Source"
-];
-
-/*var encodings = ["line", "scatter", "dash", "bar", "area"];*/
 var fieldLst = document.querySelector(".attr-lst");
 var mainImg = document.querySelector(".mainImg");
-/* var relatedImg = document.querySelector(".related_main_area");*/
+var opt = {};
 var checkedBoxes = [];
+var myschema = null;
+var myData = null;
 
-// followings are some disabled teamplates and fiunctions for sidenav fields (ignore for now, fold it if you can)
+d3.json("/data/movies.json").then(assignSchema);
 
-// <li class="cate-attr">
-// <div>
-// <i class="fas fa-font"></i> &nbsp;
-// <span> ${e} </span>
-// <span class="float-right">
-//     <i class="fas fa-plus"></i></i>
-// </span>
-// </div>
-// </li>
-//  <li class="cate-attr">
-//         <div>
-//             <i class="fas fa-calendar-alt"></i> &nbsp;
-//             <span> ${e} </span>
-//             <span class="float-right">
-//                 <i class="fas fa-plus"></i></i>
-//             </span>
-//         </div>
-// </li> 
-//<li class="trans-quant-attr">
-//    <div>
-//        <i class="fas fa-caret-down"></i> &nbsp;
-//        <i class="fas fa-hashtag"></i> &nbsp;
-//        <span> ${e}</span>
-//        <span class="float-right">
-//            <i class="fas fa-plus"></i>
-//        </span>
-//    </div>
-//</li> 
-//<li class="quant-attr">
-//    <div>
-//        <i class="fas fa-hashtag"></i> &nbsp;
-//        <span> COUNT</span>
-//        <span class="float-right">
-//            <i class="fas fa-plus"></i></i>
-//        </span>
-//    </div>
-//</li> 
-
-
-
-// [removed functionalities]. keeped here incase we would reuse some of the functionality
-
-
-// function addEL() {
-//     for (img of document.querySelectorAll(".related_views img")) {
-//         img.addEventListener("click", switchEncoding);
-//     }
-// }
-
-// display related encoding views when clicking [Alternative Encoding] button
-// function alternativeEncoding() {
-//     let name = mainImg.querySelector("img").className;
-//     let res = "";
-//     for (e of encodings) {
-//         if (e != name) {
-//             res += `<img class= '${e}' src="/static/img/version1/${e}_main.png">`;
-//         }
-//     }
-//     relatedImg.innerHTML = res;
-//     addEL();
-// }
-
-// display related categorical views when clicking [Add Categorical] button
-// function addingCategorical() {
-//     let name = mainImg.querySelector("img").className;
-//     let res = "";
-//     for (i of [1, 2, 3]) {
-//         res += `<img class= '${name}' src="/static/img/version1/${name+'_categorical_'+i}.png">`;
-//     }
-//     relatedImg.innerHTML = res;
-//     addEL();
-// }
-
-// function addingQuantitative() {
-//     let name = mainImg.querySelector("img").className;
-//     let res = "";
-//     for (i of [1, 2, 3]) {
-//         res += `<img class= '${name}' src="/static/img/version1/${name+'_quantitative_'+i}.png">`;
-//     }
-//     relatedImg.innerHTML = res;
-//     addEL();
-// }
-
-// function switchEncoding(e) {
-//     let name = mainImg.querySelector("img").className;
-//     if (e.target.src.includes('main')) {
-//         let target = e.target.className;
-//         let target_src = e.target.src;
-//         // swap class of 2 images
-//         mainImg.querySelector("img").className = target;
-//         e.target.className = name;
-//         //swap srcs
-//         e.target.src = mainImg.querySelector("img").src;
-//         mainImg.querySelector("img").src = target_src;
-//         addEL();
-//     }
-
-// }
-
-
-// initField(Fields);
-// alternativeEncoding();
-// addEL();
-
-// document.querySelector(".AE").addEventListener("click", alternativeEncoding);
-
-// document.querySelector(".AC").addEventListener("click", addingCategorical);
-
-// document.querySelector(".AQ").addEventListener("click", addingQuantitative);
+function assignSchema(data) {
+    myData = data;
+    myschema = cql.schema.build(data, opt);
+    initField(Fields);
+}
 
 /* a helper function that put all attrbutes to field list on sidenav.*/
 function addFields(fields) {
     let res = "";
-    let disabledstr = "disabled";
-    let enabledstr = "";
+    let disabledstr = "";
+    let enabledstr = "enabled";
     for (e of fields.cate) {
-        if (enabled.includes(e)) {
-            disabledstr = "";
-            enabledstr = "enabled";
-        }
         res += `<li class="cate-attr ${enabledstr} ${disabledstr}">
                     <div>
                         <i class="fas fa-font"></i> &nbsp;
@@ -154,14 +75,8 @@ function addFields(fields) {
                         </span>
                     </div>
                 </li>`;
-        disabledstr = "disabled";
-        enabledstr = "";
     }
     for (e of fields.date) {
-        if (enabled.includes(e)) {
-            disabledstr = "";
-            enabledstr = "enabled";
-        }
         res += `<li class="cate-attr ${enabledstr} ${disabledstr}">
                     <div>
                         <i class="fas fa-calendar-alt"></i> &nbsp;
@@ -171,14 +86,8 @@ function addFields(fields) {
                         </span>
                     </div>
                 </li>`;
-        disabledstr = "disabled";
-        enabledstr = "";
     }
     for (e of fields.trans_quant) {
-        if (enabled.includes(e)) {
-            disabledstr = "";
-            enabledstr = "enabled";
-        }
         res += `<li class="trans-quant-attr ${enabledstr} ${disabledstr}">
                     <div>
                         <i class="fas fa-caret-down"></i> &nbsp;
@@ -189,30 +98,14 @@ function addFields(fields) {
                         </span>
                     </div>
                 </li>`;
-        disabledstr = "disabled";
-        enabledstr = "";
     }
-    for (e of fields.quant) {
-        if (enabled.includes(e)) {
-            disabledstr = "";
-            enabledstr = "enabled";
-        }
-        res += `<li class="quant-attr ${enabledstr} ${disabledstr}">
-                    <div>
-                        <i class="fas fa-hashtag"></i> &nbsp;
-                        <label class="form-check-label" for="${e}"> ${e} </label>
-                        <span class="check float-right">
-                            <input class="form-check-input" type="checkbox" value="${e}" id="${e}" ${disabledstr} />
-                        </span>
-                    </div>
-                </li>`;
-    }
+
     fieldLst.innerHTML += res;
 }
 
 // does what it said.. it init the field list on sidenav.
 function initField(fields) {
-    fieldLst.innerHTML = '';
+    fieldLst.innerHTML = "";
     addFields(fields);
 
     //adding event listeners to field labels
@@ -224,14 +117,14 @@ function initField(fields) {
             let box = e.target.querySelector("input");
             if (box != null) box.checked = !box.checked;
             readFields();
-        })
+        });
     }
-};
+}
 
-// this function is called by submitting the selected fields on the sidenav
+// this function is called by clicking on the sidenav
 function readFields() {
     let allCheckboxes = document.querySelectorAll("form .enabled input");
-    let checkedValues = [];
+    let checkedNames = [];
     let selectedBoxes = [];
     let i = 0;
 
@@ -239,27 +132,29 @@ function readFields() {
     for (box of allCheckboxes) {
         if (box.checked) {
             selectedBoxes[i] = box;
-            checkedValues[i] = box.value.split(" ").join('');
+            checkedNames[i] = box.value.split(" ").join("_");
+            if (checkedNames[i] == "Rotten_Tomatoes")
+                checkedNames[i] = "Rotten_Tomatoes_Rating";
             i++;
         }
     }
     // if nothing is checked, display the message.
-    if (checkedValues.length == 0) {
+    if (checkedNames.length == 0) {
         mainImg.innerHTML = `Welcome! Please select fields to generate recommanded charts.`;
         return false;
     }
-    checkedValues.sort();
-    // generate chart
-    let str = checkedValues.join("_");
-    if (combinations.includes(str)) {
-        mainImg.innerHTML = `<img src="/img/version1/${str}.png" >`;
-        // save the changes if we succeed
-        checkedBoxes = selectedBoxes;
-    } else {
-        // if the selection is not applicable, revert selections to previous one.
-        alert(`Can not generate chart with such fields, unavailable selections has been reverted.`);
+    // if checked too many fields, revert the changes.
+    if (checkedNames.length > 3) {
+        alert(
+            `You have selected more than 3 fields! Unavailable selections has been reverted.`
+        );
         revertSelections(checkedBoxes);
+        return false;
     }
+
+    // save the changes if we succeed
+    checkedBoxes = selectedBoxes;
+    generatePlot(checkedNames);
 
     return false;
 }
@@ -273,4 +168,95 @@ function revertSelections(checkedBoxes) {
     }
 }
 
-initField(Fields);
+// method that generate recomandations and plot
+function generatePlot(arr) {
+    var query = {};
+    var topVlSpec;
+    if (arr.length == 1) {
+        var v1 = arr[0];
+        query = {
+            spec: {
+                data: {
+                    url: "/data/movies.json",
+                },
+                mark: "?",
+                encodings: [{
+                    channel: "?",
+                    field: v1,
+                    type: types[v1],
+                }, ],
+            },
+            chooseBy: "effectiveness",
+        };
+        var result = cql.recommend(query, myschema, opt).result;
+        var vlTree = cql.result.mapLeaves(result, function (item) {
+            return item.toSpec();
+        });
+        topVlSpec = vlTree.items[0];
+    } else if (arr.length == 2) {
+        var v1 = arr[0];
+        var v2 = arr[1];
+
+        query = {
+            spec: {
+                data: {
+                    url: "/data/movies.json",
+                },
+                mark: "?",
+                encodings: [{
+                        channel: "?",
+                        field: v1,
+                        type: types[v1],
+                    },
+                    {
+                        channel: "?",
+                        field: v2,
+                        type: types[v2],
+                    },
+                ],
+            },
+            chooseBy: "effectiveness",
+        };
+        var result = cql.recommend(query, myschema, opt).result;
+        var vlTree = cql.result.mapLeaves(result, function (item) {
+            return item.toSpec();
+        });
+        topVlSpec = vlTree.items[0];
+    } else {
+        var v1 = arr[0];
+        var v2 = arr[1];
+        var v3 = arr[2];
+        query = {
+            spec: {
+                data: {
+                    url: "/data/movies.json",
+                },
+                mark: "?",
+                encodings: [{
+                        channel: "?",
+                        field: v1,
+                        type: types[v1],
+                    },
+                    {
+                        channel: "?",
+                        field: v2,
+                        type: types[v2],
+                    },
+                    {
+                        channel: "?",
+                        field: v3,
+                        type: types[v3],
+                    },
+                ],
+            },
+            chooseBy: "effectiveness",
+        };
+        var result = cql.recommend(query, myschema, opt).result;
+        var vlTree = cql.result.mapLeaves(result, function (item) {
+            return item.toSpec();
+        });
+        topVlSpec = vlTree.items[0];
+    }
+    //   console.log(topVlSpec);
+    plot(topVlSpec);
+}
