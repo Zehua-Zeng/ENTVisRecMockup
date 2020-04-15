@@ -31,9 +31,9 @@ def send_data(filename):
     return send_from_directory('web/static/data', filename)
 
 # send static files from directory (img for v2)
-@app.route('/img/version2/<path:filename>')
-def send_imgv2(filename):
-    return send_from_directory('web/static/img/version2', filename)
+# @app.route('/img/version2/<path:filename>')
+# def send_imgv2(filename):
+#     return send_from_directory('web/static/img/version2', filename)
 
 # send static files from directory (img for v4)
 @app.route('/img/version4/<path:filename>')
