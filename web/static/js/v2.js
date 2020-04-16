@@ -259,7 +259,7 @@ function generateFieldRec(arr) {
 
         // if there is a generated recommandation, plot it.
         // Other wise it is not recommanded.
-        if (cateVlSpec != undefined && cateVlSpec["encoding"]["row"] == undefined) {
+        if (cateVlSpec != undefined) {
             // create new div for new plot
             document.querySelector(
                 ".categorical_views"
