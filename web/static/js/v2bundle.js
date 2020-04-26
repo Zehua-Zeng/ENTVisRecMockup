@@ -11755,14 +11755,12 @@ var types = {
 };
 
 var bookmarkContent = document.querySelector(".bookmark_content");
-var bookmarkNames = [];
-var queryMap = {};
 var fieldLst = document.querySelector(".attr-lst");
 var mainImg = document.querySelector(".mainImg");
+var queryMap = {};
 var opt = {};
 var myschema = null;
 var myData = null;
-var svgCount = 0;
 
 // names of selected field
 var checkedFields = [];
@@ -11851,7 +11849,6 @@ function initField(fields) {
       // when the window is displayed, plot charts in divs
       modal.style.display = "block";
       refreshBookmark();
-
     }
   });
   // When the user clicks on <span> (x), close the modal
@@ -11871,18 +11868,40 @@ function initField(fields) {
  */
 function refreshBookmark() {
   let arr = bookmarkContent.childNodes;
-  if (bookmarkContent.childElementCount == 0) {
-    bookmarkContent.innerHTML = "Oops, you don't have any bookmark yet. Click on bookmark tags on charts to add you bookmark!";
+  if (window.localStorage.length == 0) {
+    bookmarkContent.innerHTML =
+      "Oops, you don't have any bookmark yet. Click on bookmark tags on charts to add a bookmark!";
   } else {
-    for (n of arr) {
-      let str = n.classList[1].split("_")[0];
-      plotRec(`${str}_bm`, queryMap[str]);
+    bookmarkContent.innerHTML = "";
+    for (var i = 0; i < window.localStorage.length; i++) {
+      let key = localStorage.key(i);
+      let value = window.localStorage.getItem(key);
+
+      // creat div structure append to the popup window.
+      bookmarkContent.innerHTML += `<div class="view_wrapper ${key}_wrapper_bm" ><i class="fas fa-bookmark add_bm" added="true"></i><div class="views cate" id="${key}_bm"></div></div>`;
+
+      console.log(`getting value of key->${key}, value->${value}`);
+      let markedFields = value.split(",");
+      let myVlSpec = undefined;
+
+      // generate recommandation according to marked fields 
+      if (markedFields.length > 3)
+        myVlSpec = generateRecommandation(markedFields.slice(0, 3), arr[4]);
+      else myVlSpec = generateRecommandation(markedFields, null);
+      // plot the recommandation
+      plotRec(`${key}_bm`, myVlSpec);
+
+
+      let btn = document.querySelector(`.${key}_wrapper_bm i`);
+      // add event listener to new bookmark
+      btn.addEventListener("click", toggleBookMark);
+      // change color and attribute of bookmark.
+      btn.style.color = "#60608A";
+      btn.setAttribute("added", "true");
     }
-
   }
-
-
 }
+
 /**
  *  this function is the onclick event of input fields
  */
@@ -11894,7 +11913,7 @@ function onClickEvent(e) {
     // if a box is checked after the click
     if (box.checked) {
       // if we can check more fields add the field in.
-      // also add its parsed name to the list. 
+      // also add its parsed name to the list.
       if (checkedFields.length < 3) {
         checkedFields.push(s);
         document.querySelector(".related_main_area").style.display = "inherit";
@@ -11920,8 +11939,13 @@ function onClickEvent(e) {
       }
     }
   }
-  mainImg.innerHTML = `<div id="main_wrapper" class="view_wrapper spec_wrapper"><i class="fas fa-bookmark add_bm" added="false"></i><div class="views spec" id="main"></div></div>`;
-  generatePlot(checkedFields);
+  let fieldStr = "";
+  for (s of checkedFields) {
+    fieldStr += s;
+  }
+
+  mainImg.innerHTML = `<div id="main_wrapper" class="view_wrapper ${fieldStr}_wrapper"><i class="fas fa-bookmark add_bm" added="false"></i><div class="views ${fieldStr}" id="main"></div></div>`;
+  generatePlot(checkedFields, fieldStr);
   generateFieldRec(checkedFields);
 
   // add event listeners to all bookmark buttons on the page
@@ -11933,15 +11957,16 @@ function onClickEvent(e) {
   let wrappers = document.querySelectorAll(".view_wrapper");
 
   for (wrapper of wrappers) {
-
-    if (bookmarkNames.includes(wrapper.classList.item(1))) {
-
+    let item = wrapper.classList.item(1).split("_wrapper")[0];
+    if (
+      window.localStorage.getItem(item) != null &&
+      window.localStorage.getItem(item) != undefined
+    ) {
       wrapper.querySelector("i").style.color = "#60608A";
       wrapper.querySelector("i").setAttribute("added", "true");
       // console.log(wrapper.classList.item(1).split("_bm")[0] + " exists!! " + btn.style.color);
     }
   }
-
 }
 
 /**
@@ -11956,15 +11981,18 @@ function toggleBookMark(e) {
     // remove bookmark from pop up window
     let arr = bookmarkContent.childNodes;
     for (n of arr) {
-      if (`${str}_bm`.split("_bm")[0].localeCompare(n.classList[1].split("_bm")[0]) == 0) {
+      if (
+        `${str}`
+        .split("_wrapper")[0]
+        .split("_bm")[0]
+        .localeCompare(n.classList.item(1).split("_bm")[0]) == 0
+      ) {
         bookmarkContent.removeChild(n);
       }
     }
-    bookmarkNames = bookmarkNames.filter(function (value, index, arr) {
-      return value != str
-    });
+    window.localStorage.removeItem(str.split("_wrapper")[0]);
 
-    // change color an state of the plot in views
+    // change color and state of the plot in views
     let mark = document.querySelector(`.${str.split("_bm")[0]} i`);
     if (mark != null) {
       mark.style.color = "rgb(216, 212, 223)";
@@ -11976,34 +12004,25 @@ function toggleBookMark(e) {
   } else {
     btn.style.color = "#60608A";
     btn.setAttribute("added", "true");
-    bookmarkNames.push(str);
+
+    let splittedStr = str.split("_wrapper")[0];
+
     // if there is currently no charts, empty its inner html.
-    if (bookmarkContent.querySelector(".view_wrapper") == null) {
+    if (window.localStorage.length == 0) {
       bookmarkContent.innerHTML = "";
     }
-    // append created div structure, change color and add event to the new bookmark button
-    bookmarkContent.innerHTML += `<div class="view_wrapper ${str}_bm"><i class="fas fa-bookmark add_bm" added="true"></i><div class="views cate" id="${str.split("_")[0]}_bm"></div></div>`;
-    document.querySelector(`.${str}_bm i`).style.color = "#60608A";
-    document.querySelector(`.${str}_bm i`).addEventListener("click", toggleBookMark);
+    // tracks query for the bookmark in local storage.
+    window.localStorage.setItem(splittedStr, queryMap[splittedStr]);
+
   }
-
-
 }
 
 /**
  * method that generate specified view.
  * */
-function generatePlot(arr) {
-  var spec_query = {};
-  var specVlSpec;
-
-  spec_query = generateQuery(arr, null);
-  var spec_result = cql.recommend(spec_query, myschema, opt).result;
-  var spec_vlTree = cql.result.mapLeaves(spec_result, function (item) {
-    return item.toSpec();
-  });
-  specVlSpec = spec_vlTree.items[0];
-  queryMap["spec"] = specVlSpec;
+function generatePlot(arr, str) {
+  var specVlSpec = generateRecommandation([...arr], null);
+  queryMap[str] = [...arr];
   plot(specVlSpec);
 }
 
@@ -12011,14 +12030,10 @@ function generatePlot(arr) {
  * the function that generate categorical and quantitative field recommandations
  * */
 function generateFieldRec(arr) {
-  var cate_query = {};
-  var cateVlSpec;
-  var quant_query = {};
-  var quantVlSpec;
   let restCateFields = [];
   let restQuantFields = [];
+
   // reinitialize views and count every time we redraw the cate views.
-  svgCount = 0;
   document.querySelector(".categorical_views").innerHTML = ``;
   document.querySelector(".quantitative_views").innerHTML = ``;
 
@@ -12036,79 +12051,77 @@ function generateFieldRec(arr) {
   }
 
   // for each of rest categorical field, generate a recommandation.
-  for (c of restCateFields) {
-    cate_query = generateQuery(arr, c);
-    var cate_result = cql.recommend(cate_query, myschema, opt).result;
-    var cate_vlTree = cql.result.mapLeaves(cate_result, function (item) {
-      return item.toSpec();
-    });
-
-    // generate small multiples for 3 fields recommandation.
-    if (arr.length == 3) {
-      cateVlSpec = cate_vlTree.items[0];
-    } else {
-      for (r of cate_vlTree.items) {
-        if (r == undefined) {
-          cateVlSpec = undefined;
-          break;
-        } else if (r["encoding"]["row"] == undefined) {
-          cateVlSpec = r;
-        }
-      }
-    }
-
-    // this is id of assigned svg, since vegaEmbed assign one plot per div..
-    let str = `view${svgCount}`;
-
-    // if there is a generated recommandation, plot it.
-    // Other wise it is not recommanded.
-    if (cateVlSpec != undefined) {
-      // create new div for new plot
-      document.querySelector(".categorical_views").innerHTML += `<div class="view_wrapper ${str}_wrapper"><i class="fas fa-bookmark add_bm" added="false"></i><div class="views cate" id="${str}"></div></div>`;
-      queryMap[str] = cateVlSpec;
-      plotRec(str, cateVlSpec);
-      svgCount++;
-    }
-  }
+  for (c of restCateFields) plotWithRec([...arr], c, ".categorical_views");
 
   // for each of rest quantitative field, generate a recommandation.
-  for (q of restQuantFields) {
-    quant_query = generateQuery(arr, q);
-    var quant_result = cql.recommend(quant_query, myschema, opt).result;
-    var quant_vlTree = cql.result.mapLeaves(quant_result, function (item) {
+  for (q of restQuantFields) plotWithRec([...arr], q, ".quantitative_views");
+}
+
+/**
+ * the function that generate query and plot for selected fields and specific recommandation.
+ */
+function plotWithRec(arr, field, view) {
+  let myVlSpec = generateRecommandation(arr, field);
+
+  // this is id of assigned svg, since vegaEmbed assign one plot per div..
+  let resarr = arr;
+  resarr.push(field);
+  let fieldStr = "";
+  for (s of arr) {
+    fieldStr += s;
+  }
+  fieldStr += field;
+
+  // if there is a generated recommandation, plot it.
+  // Other wise it is not recommanded.
+  if (myVlSpec != undefined && myVlSpec != null) {
+    // create new div for new plot
+    document.querySelector(
+      view
+    ).innerHTML += `<div class="view_wrapper ${fieldStr}_wrapper"><i class="fas fa-bookmark add_bm" added="false"></i><div class="views cate" id="${fieldStr}"></div></div>`;
+    queryMap[fieldStr] = resarr;
+    plotRec(fieldStr, myVlSpec);
+  }
+}
+
+/*
+ *  A function that generate recommandations for selected fields and a recommanded field.
+ */
+function generateRecommandation(arr, field) {
+  if (field != null) {
+    let myquery = generateQuery(arr, field);
+    let myresult = cql.recommend(myquery, myschema, opt).result;
+    var myvlTree = cql.result.mapLeaves(myresult, function (item) {
       return item.toSpec();
     });
 
+    let myVlSpec = null;
     // generate small multiples for 3 fields recommandation.
     if (arr.length == 3) {
-      quantVlSpec = quant_vlTree.items[0];
+      myVlSpec = myvlTree.items[0];
     } else {
-      for (r of quant_vlTree.items) {
+      for (r of myvlTree.items) {
         if (r == undefined) {
-          quantVlSpec = undefined;
+          myVlSpec = undefined;
           break;
         } else if (r["encoding"]["row"] == undefined) {
-          quantVlSpec = r;
+          myVlSpec = r;
         }
       }
     }
+    return myVlSpec;
+  } else {
+    var myquery = {};
+    var myVlSpec;
 
-    // this is id of assigned svg, since vegaEmbed assign one plot per div..
-    let str = `view${svgCount}`;
-
-    // if there is a generated recommandation, plot it.
-    // Other wise it is not recommanded.
-    if (quantVlSpec != undefined) {
-      // create new div for new plot
-      document.querySelector(
-        ".quantitative_views"
-      ).innerHTML += `<div class="view_wrapper ${str}_wrapper"><i class="fas fa-bookmark add_bm" added="false"></i><div class="views cate" id="${str}"></div></div>`;
-      queryMap[str] = quantVlSpec;
-      plotRec(str, quantVlSpec);
-      svgCount++;
-    }
+    myquery = generateQuery(arr, null);
+    var myresult = cql.recommend(myquery, myschema, opt).result;
+    var myvlTree = cql.result.mapLeaves(myresult, function (item) {
+      return item.toSpec();
+    });
+    myVlSpec = myvlTree.items[0];
+    return myVlSpec;
   }
-
 }
 
 /**

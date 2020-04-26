@@ -90,7 +90,7 @@
 /* ============== sideNav#1 styling =============== */
 #sidebar1 {
   display: inline-block;
-  margin-top: 6.7vh;
+  margin-top: 7.8vh;
   background-color: rgb(96, 96, 138);
   box-shadow: 0 0 7px rgba(54, 44, 73, 0.877);
   width: 210px;
@@ -152,7 +152,7 @@
   height: 93.2vh;
   position: relative;
   margin: 62px 0 0 0;
-  padding: 10px 0 0 230px;
+  padding: 10px 0 0 250px;
   color: rgb(89, 74, 114);
   overflow: scroll;
 }
@@ -209,7 +209,7 @@ h5 {
   margin: auto;
   /* min-height: min-content; */
   max-height: 40vh;
-  max-width: 80vw;
+  max-width: 75vw;
   overflow: scroll;
   align-content: center;
 }
