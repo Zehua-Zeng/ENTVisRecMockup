@@ -8,7 +8,7 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
   <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/d494f7bb71.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="/css/v1.css" />
+  <link rel="stylesheet" href="css/v1.css" />
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
   <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
@@ -19,7 +19,7 @@
 
 <body>
   <!-- Navbar -->
-  <nav class="main_nav navbar sticky-top navbar-expand-lg navbar-light bg-light">
+  <nav class="main_nav navbar fixed-top navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand mb-0 h1" href="#"><i class="fas fa-database"></i>&nbsp;ENTVisRecMockup</a>
     <!-- collapse button that hide all options on nav bar when screen gets narrower -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -27,20 +27,14 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- contents of nav (can be collapsed)-->
+    <!-- contents of nav (that can be collapsed)-->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <!-- <li class="nav-item">
-            <a class="nav-link disabled" href="#">
-              <i class="fas fa-database"></i>&nbsp;
-              <b>selected data:</b>&nbsp;Movies</a
-            >
-          </li>
-
-          <li>
-            <a class="nav-link" href="#">change </a>
-          </li> -->
-
+        <li class="nav-item active">
+          <button type="button" class="btn btn-sm btn-outline-secondary" id="bookmark">
+            <i class="fas fa-bookmark"></i> &nbsp; Bookmarks
+          </button>
+        </li>
         <li class="nav-item active back_to_index">
           <a class="nav-link" href="/"><i class="fas fa-undo-alt"></i> &nbsp; Return to Index
           </a>
@@ -49,10 +43,18 @@
     </div>
   </nav>
 
+  <!-- Popup window content -->
+  <div id="popup" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="bookmark_content"></div>
+    </div>
+  </div>
+
   <!-- Main contents of the page, includes sideNavs and page contents -->
   <main>
     <div class="wrapper">
-      <!-- =========== Sidebar1 ============ -->
+      <!-- =========== Sidebar ============ -->
       <nav id="sidebar1">
         <!-- (1) Sidebar data -->
         <div class="sidebar-datablock">
@@ -65,40 +67,63 @@
 
         <!-- (2) sidebar fields -->
         <!-- on submit the selection, call readFields in v1.js -->
-        <form>
+        <form onsubmit="return readFields()">
           <div class="sidebar-fields form-check">
             <h6>Fields</h6>
             <!-- fields of attributes are here -->
 
             <!-- List of Attrs here (contains templates to different attr types) -->
             <ul class="attr-lst list-unstyled"></ul>
+            <!-- <button type="submit" class="submitbtn btn-sm btn-light">
+                Submit Selected Fields
+              </button> -->
           </div>
         </form>
       </nav>
 
       <!-- Page Content (specified and related) -->
       <div class="page_content">
+        <!-- specified views -->
         <div class="specified_views">
           <h3>Specified Views</h3>
           <div class="specified_main_area">
             <div class="mainImg">
               Welcome! Please select fields to generate recommanded charts.
+              <div id="main_wrapper" class="view_wrapper spec_wrapper">
+                <i class="fas fa-bookmark add_bm" added="false"></i>
+                <div class="views spec" id="main"></div>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </main>
 
   <!-- d3 and js file -->
   <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="/js/v1bundle.js"></script>
+  <script src="js/v1bundle.js"></script>
   <script>
-    // function that plots the spec
+    // function that plots the speciied view
     function plot(VlSpec) {
-      vegaEmbed(".mainImg", VlSpec);
+      vegaEmbed(`#main`, VlSpec);
+    }
+    // function that plots the related categorical views in corresponding divs
+    function plotRec(id, VlSpec) {
+      if (
+        id == "" ||
+        id == undefined ||
+        id == null ||
+        VlSpec == undefined ||
+        VlSpec == null
+      )
+        return;
+      // console.log(`plotting in #${id}..`);
+      vegaEmbed(`#${id}`, VlSpec);
     }
   </script>
+
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">

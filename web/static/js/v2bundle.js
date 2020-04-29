@@ -11868,19 +11868,24 @@ function initField(fields) {
  */
 function refreshBookmark() {
   let arr = bookmarkContent.childNodes;
-  if (window.localStorage.length == 0) {
+  let v2keys = [];
+  for (var i = 0; i < window.localStorage.length; i++) {
+    let key = localStorage.key(i);
+    if (key.startsWith("v2_")) v2keys.push(key);
+  }
+
+  if (v2keys.length == 0) {
     bookmarkContent.innerHTML =
       "Oops, you don't have any bookmark yet. Click on bookmark tags on charts to add a bookmark!";
   } else {
     bookmarkContent.innerHTML = "";
-    for (var i = 0; i < window.localStorage.length; i++) {
-      let key = localStorage.key(i);
+    for (key of v2keys) {
+      let k = key.substring(3);
       let value = window.localStorage.getItem(key);
 
       // creat div structure append to the popup window.
-      bookmarkContent.innerHTML += `<div class="view_wrapper ${key}_wrapper_bm" ><i class="fas fa-bookmark add_bm" added="true"></i><div class="views cate" id="${key}_bm"></div></div>`;
+      bookmarkContent.innerHTML += `<div class="view_wrapper ${k}_wrapper_bm" ><i class="fas fa-bookmark add_bm" added="true"></i><div class="views cate" id="${k}_bm"></div></div>`;
 
-      console.log(`getting value of key->${key}, value->${value}`);
       let markedFields = value.split(",");
       let myVlSpec = undefined;
 
@@ -11889,10 +11894,10 @@ function refreshBookmark() {
         myVlSpec = generateRecommandation(markedFields.slice(0, 3), arr[4]);
       else myVlSpec = generateRecommandation(markedFields, null);
       // plot the recommandation
-      plotRec(`${key}_bm`, myVlSpec);
+      plotRec(`${k}_bm`, myVlSpec);
 
 
-      let btn = document.querySelector(`.${key}_wrapper_bm i`);
+      let btn = document.querySelector(`.${k}_wrapper_bm i`);
       // add event listener to new bookmark
       btn.addEventListener("click", toggleBookMark);
       // change color and attribute of bookmark.
@@ -11903,7 +11908,7 @@ function refreshBookmark() {
 }
 
 /**
- *  this function is the onclick event of input fields
+ *  This function is the onclick event of input fields
  */
 function onClickEvent(e) {
   let box = e.target;
@@ -11920,6 +11925,7 @@ function onClickEvent(e) {
         // if we can not check more fields, alert it.
       } else {
         alert(`You have selected more than 3 fields!`);
+        box.checked = false;
         return;
       }
 
@@ -11957,7 +11963,7 @@ function onClickEvent(e) {
   let wrappers = document.querySelectorAll(".view_wrapper");
 
   for (wrapper of wrappers) {
-    let item = wrapper.classList.item(1).split("_wrapper")[0];
+    let item = `v2_${wrapper.classList.item(1).split("_wrapper")[0]}`;
     if (
       window.localStorage.getItem(item) != null &&
       window.localStorage.getItem(item) != undefined
@@ -11990,7 +11996,7 @@ function toggleBookMark(e) {
         bookmarkContent.removeChild(n);
       }
     }
-    window.localStorage.removeItem(str.split("_wrapper")[0]);
+    window.localStorage.removeItem(`v2_${str.split("_wrapper")[0]}`);
 
     // change color and state of the plot in views
     let mark = document.querySelector(`.${str.split("_bm")[0]} i`);
@@ -12005,14 +12011,14 @@ function toggleBookMark(e) {
     btn.style.color = "#60608A";
     btn.setAttribute("added", "true");
 
-    let splittedStr = str.split("_wrapper")[0];
+    let splittedStr = `${str.split("_wrapper")[0]}`;
 
     // if there is currently no charts, empty its inner html.
     if (window.localStorage.length == 0) {
       bookmarkContent.innerHTML = "";
     }
     // tracks query for the bookmark in local storage.
-    window.localStorage.setItem(splittedStr, queryMap[splittedStr]);
+    window.localStorage.setItem(`v2_${splittedStr}`, queryMap[splittedStr]);
 
   }
 }
@@ -12070,7 +12076,7 @@ function plotWithRec(arr, field, view) {
   for (s of arr) {
     fieldStr += s;
   }
-  fieldStr += field;
+  // fieldStr += field;
 
   // if there is a generated recommandation, plot it.
   // Other wise it is not recommanded.

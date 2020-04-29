@@ -3,6 +3,11 @@
   width: 100%;
 }
 
+/* ============== Navbar styling (top) ============= */
+.nav {
+  height: 5vh !important;
+}
+
 .back_to_index {
   float: left !important;
   padding-left: 60vw !important;
@@ -20,9 +25,72 @@
   background-color: rgb(170, 179, 231);
 }
 
+#bookmark {
+  margin: 15px 0 10px 20px;
+}
+
+/* ============== Popup window styling ============= */
+
+/* background */
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 20;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  color: #888;
+  margin: 15% auto;
+  /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  text-align: end;
+  color: #aaa;
+  /* width: min-content; */
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bookmark_content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 /* ============== sideNav#1 styling =============== */
 #sidebar1 {
   display: inline-block;
+  margin-top: 7.8vh;
   background-color: rgb(96, 96, 138);
   box-shadow: 0 0 7px rgba(54, 44, 73, 0.877);
   width: 210px;
@@ -83,12 +151,21 @@
   width: 100%;
   height: 93.2vh;
   position: relative;
-  padding: 10px 0 0 300px;
+  margin: 62px 0 0 0;
+  padding: 10px 0 0 250px;
   color: rgb(89, 74, 114);
   overflow: scroll;
 }
 
+.page_content .views {
+  z-index: 1;
+}
+
 /*  ==== Specified Views ==== */
+.specified_views {
+  margin-top: 10px;
+}
+
 .specified_main_area {
   display: inline-flex;
   display: block;
@@ -101,4 +178,70 @@
   /* min-width: 30%; */
   display: inline-block;
   margin: auto;
+}
+
+h5 {
+  border-left: solid 3px rgb(175, 126, 231);
+  padding: 10px 0 10px 10px;
+  margin-top: 30px;
+  background-color: rgba(209, 197, 231, 0.699);
+}
+
+
+
+/* below are style settings for the data visualizations */
+.views {
+  background-color: white;
+  padding: 10px 20px 10px 10px;
+  margin: auto;
+  /* min-height: min-content; */
+  max-height: 40vh;
+  max-width: 75vw;
+  overflow: scroll;
+  align-content: center;
+}
+
+.view_wrapper {
+  box-shadow: 0px 0px 5px rgba(209, 207, 207, 0.699);
+  max-width: 80vw;
+  width: min-content;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.add_bm {
+  display: block;
+  width: min-content;
+  color: rgb(201, 195, 211);
+  cursor: pointer;
+  /* margin: 0 0 ; */
+}
+
+.add_bm:hover {
+  color: rgb(163, 149, 189);
+}
+
+/* =============== scroll bar ============== */
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(216, 212, 223);
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(188, 178, 207);
 }
