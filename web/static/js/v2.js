@@ -152,12 +152,14 @@ function initField(fields) {
   });
 }
 
+
 /**
  *  This function display all marked charts in popup window
  */
 function refreshBookmark() {
   let arr = bookmarkContent.childNodes;
   let v2keys = [];
+  let btnstrs = [];
   for (var i = 0; i < window.localStorage.length; i++) {
     let key = localStorage.key(i);
     if (key.startsWith("v2_")) v2keys.push(key);
@@ -185,14 +187,17 @@ function refreshBookmark() {
       // plot the recommandation
       plotRec(`${k}_bm`, myVlSpec);
 
-
+      btnstrs.push(`.${k}_wrapper_bm i`);
       let btn = document.querySelector(`.${k}_wrapper_bm i`);
-      // add event listener to new bookmark
-      btn.addEventListener("click", toggleBookMark);
+
       // change color and attribute of bookmark.
       btn.style.color = "#60608A";
       btn.setAttribute("added", "true");
     }
+    // add event listener to new bookmark
+    for (btn of btnstrs)
+      document.querySelector(btn).addEventListener("click", toggleBookMark);
+
   }
 }
 

@@ -157,18 +157,19 @@ function initField(fields) {
  */
 function refreshBookmark() {
     let arr = bookmarkContent.childNodes;
-    let v2keys = [];
+    let v1keys = [];
+    let btnstrs = [];
     for (var i = 0; i < window.localStorage.length; i++) {
         let key = localStorage.key(i);
-        if (key.startsWith("v1_")) v2keys.push(key);
+        if (key.startsWith("v1_")) v1keys.push(key);
     }
 
-    if (v2keys.length == 0) {
+    if (v1keys.length == 0) {
         bookmarkContent.innerHTML =
             "Oops, you don't have any bookmark yet. Click on bookmark tags on charts to add a bookmark!";
     } else {
         bookmarkContent.innerHTML = "";
-        for (key of v2keys) {
+        for (key of v1keys) {
             let k = key.substring(3);
             let value = window.localStorage.getItem(key);
 
@@ -185,14 +186,17 @@ function refreshBookmark() {
             // plot the recommandation
             plotRec(`${k}_bm`, myVlSpec);
 
-
+            btnstrs.push(`.${k}_wrapper_bm i`);
             let btn = document.querySelector(`.${k}_wrapper_bm i`);
-            // add event listener to new bookmark
-            btn.addEventListener("click", toggleBookMark);
+
             // change color and attribute of bookmark.
             btn.style.color = "#60608A";
             btn.setAttribute("added", "true");
         }
+        // add event listener to new bookmark
+        for (btn of btnstrs)
+            document.querySelector(btn).addEventListener("click", toggleBookMark);
+
     }
 }
 
@@ -226,8 +230,6 @@ function onClickEvent(e) {
             // if 0 fields are checked, display alternative message.
             if (checkedFields.length == 0) {
                 mainImg.innerHTML = ` Welcome! Please select fields to generate recommanded charts.`;
-                document.querySelector(".categorical_views").innerHTML = "";
-                document.querySelector(".quantitative_views").innerHTML = "";
                 return;
             }
         }
