@@ -187,6 +187,11 @@ h5 {
   background-color: rgba(209, 197, 231, 0.699);
 }
 
+.alternative_encodings {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .categorical_views {
   display: flex;
   flex-wrap: wrap;

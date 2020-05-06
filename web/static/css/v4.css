@@ -6,15 +6,10 @@ body {
     display: flex;
 }
 
-.data_display {
-    padding-top: 100px !important;
-}
-
 /* field & wildcard list on sidenav */
 #sidebar1 li {
     background-color: rgba(164, 152, 201, 0.644);
     padding: 3px 10px 3px 28px;
-
     cursor: grab;
     margin: 5px 0;
     border-radius: 3px;
@@ -24,61 +19,174 @@ body {
     padding: 3px 10px;
 }
 
+/* below are style settings for the data visualizations */
+.views {
+    background-color: white !important;
+    padding: 10px 20px 10px 10px;
+    margin: auto;
+    max-height: 40vh;
+    max-width: 75vw;
+    overflow: scroll;
+    align-content: center;
+}
+
+.view_wrapper {
+    box-shadow: 0px 0px 5px rgba(209, 207, 207, 0.699);
+    max-width: 80vw;
+    width: min-content;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.add_bm {
+    display: inline;
+    color: rgb(201, 195, 211);
+    cursor: pointer;
+    margin: 0 0 0 5px;
+}
+
+.add_bm:hover {
+    color: rgb(163, 149, 189);
+}
+
+.explore {
+    background-color: rgb(238, 233, 247);
+    border-radius: 2px;
+    padding: 0 3px 2px 3px;
+    display: inline;
+    align-content: space-around;
+    margin: 0 0 2px 5px;
+}
+
+.explore:hover {
+    box-shadow: 0 0 2px rgba(76, 2, 126, 0.212);
+    background-color: rgb(228, 212, 255);
+}
+
+
+#bookmark {
+    margin: 15px 0 10px 20px;
+}
+
+/* ============== Popup window styling ============= */
+
+/* background */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 20;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    color: #888;
+    margin: 15% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    text-align: end;
+    color: #aaa;
+    /* width: min-content; */
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.bookmark_content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 
 /* ============= Main Page Content styling ================ */
 .page_content {
     background-color: rgb(229, 229, 250);
     width: 100%;
-    height: 100%;
+    height: calc(100% - 57px);
     position: fixed;
-    padding: 30px 0 0 30px;
+    padding: 10px 0 0 30px;
     color: rgb(89, 74, 114);
+    overflow: scroll;
 
 }
 
-/*  ==== Specified Views ==== */
-.specified_main_area {
-    display: inline-flex;
-    width: 300px;
-    margin: 10px 30%;
-}
-
-.specified_main_area div {
-    color: blue;
-    width: 200px;
-    display: inline-block;
-    margin: 30px;
-}
-
-.specified_main_area div button {
-    margin: 7px 10px;
-    width: 200px;
-    padding: 15px;
-}
-
-
-/* ====== Related Views ====== */
-img {
-    /* cursor: pointer; */
-}
-
-.page_content .related_views {
+.page_content .recommandations {
     background-color: rgb(210, 206, 238);
     box-shadow: 0 0 5px rgba(131, 112, 167, 0.555);
     width: 95%;
-    min-height: 60%;
-    margin: 50px 30px 20px 30px;
-    padding: 10px 0 0 10px;
+    height: min-content;
+    margin: 20px 30px 20px 30px;
+    padding: 10px 0 0 30px;
 }
 
-.related_main_area {
+.recommandation_main_area {
     margin: 10px 120px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
 }
 
-.related_main_area img {
+.recommandations_main_area .views {
+    z-index: 1;
+}
+
+.recommandation_main_area img {
     margin: 10px 25px;
 }
 
+/* =============== scroll bar ============== */
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(216, 212, 223);
+    border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(188, 178, 207);
+}
 
 /* ============== !!! Following are the styling when some specified chart is selected !!! ============== */
 
@@ -96,30 +204,20 @@ img {
     display: inline-block;
     background-color: rgb(189, 189, 228);
     box-shadow: 0 0 7px rgba(36, 22, 61, 0.877);
-    width: 400px;
+    width: 500px;
     height: 94%;
     min-height: 750px;
     position: absolute;
     z-index: 10;
     color: rgb(78, 61, 105);
     padding: 20px 20px;
-    font-size: 12px;
+    /* font-size: 12px; */
 }
 
 #specified {
     width: 85%;
     max-height: 90%;
-    /* display: blcok; */
     padding: 25px 0;
-    margin: 0 auto;
-}
-
-.alt_specified #buttons button {
-    display: block;
-    width: 200px;
-    margin: 10px auto;
-    padding: 10px;
-    font-size: 15px;
 }
 
 .return {
@@ -140,11 +238,34 @@ img {
 }
 
 /* ============= related content================ */
+h5 {
+    border-left: solid 3px rgb(175, 126, 231);
+    padding: 10px 0 10px 10px !important;
+    margin-top: 30px;
+    background-color: rgba(209, 197, 231, 0.699);
+}
+
+.alternative_encodings {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.categorical_views {
+    display: flex;
+    flex-wrap: wrap;
+    /* align-items: flex-start; */
+}
+
+.quantitative_views {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .alt_related {
     background-color: rgb(229, 229, 250);
     width: 100%;
     height: 100%;
-    padding: 20px 30px 100px 450px;
+    padding: 20px 30px 100px 530px;
     color: rgb(89, 74, 114);
     overflow: auto;
 }
@@ -161,8 +282,6 @@ img {
     background-color: rgb(219, 219, 241);
     padding: 0px 20px 20px;
 }
-
-
 
 .quant {
     background-color: rgb(219, 219, 241);

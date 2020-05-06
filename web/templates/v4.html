@@ -5,11 +5,16 @@
     <meta charset="UTF-8">
     <!-- bootstrap CSS-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/d494f7bb71.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/css/v4.css">
+    <link rel="stylesheet" href="css/v4.css" />
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+    <!-- Import vega-embed -->
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 
 <body>
@@ -27,7 +32,7 @@
             <ul class="navbar-nav mr-auto">
 
 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link disabled" href="#">
                         <i class="fas fa-database"></i>&nbsp;
                         <b>selected data:</b>&nbsp;Movies</a>
@@ -35,6 +40,12 @@
 
                 <li>
                     <a class="nav-link" href="#">change </a>
+                </li> -->
+
+                <li class="nav-item active">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="bookmark">
+                        <i class="fas fa-bookmark"></i> &nbsp; Bookmarks
+                    </button>
                 </li>
 
                 <li class="nav-item active back_to_index">
@@ -44,30 +55,31 @@
         </div>
     </nav>
 
-    <!-- Main contents of the page, includes sideNavs and page contents -->
+    <!-- Popup window content -->
+    <div id="popup" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="bookmark_content"></div>
+        </div>
+    </div>
+
+    <!--Main contents of the page, includes sideNavs and page contents -->
     <main>
         <div class="wrapper">
-            <!-- Main Page Content (will be hidden when a specific chart is chosen) -->
+
+            <!--================= Main Page Content (will be hidden when a specific chart is chosen) =====================-->
             <div class="page_content">
-                <div diaplay="None" class="specified_views">
-                    <h3>Specified Views</h3>
-                    <p class="msg"></p>
 
-                    <!-- area that displays specified views (none)-->
-                    <div class="specified_main_area">
-                    </div>
-                </div>
-
-                <div diaplay="None" class="related_views">
-                    <h4>Related Views</h4>
+                <div diaplay="None" class="recommandations">
+                    <h4>Recommandations</h4>
+                    <p>&nbsp; &nbsp;Welcome, select a recommandation and start exploring!</p>
                     <!-- area that displays related views -->
-                    <div class="related_main_area">
+                    <div class="recommandation_main_area">
                     </div>
                 </div>
-
             </div>
 
-            <!-- Alternative Content when specific chat is selected (was hidden initally)-->
+            <!-- ==================== Alternative Content when specific chat is selected (was hidden initally) ==========-->
             <div class="alt_page_content">
                 <!-- alternative specified views -->
                 <div class="alt_specified">
@@ -75,10 +87,6 @@
 
                     <!-- specified chart -->
                     <div id="specified">
-                    </div>
-
-                    <!-- alternative encoding button groups -->
-                    <div id="buttons">
                     </div>
 
                     <!-- return button -->
@@ -89,28 +97,68 @@
                 </div>
                 <!-- alternative related views -->
                 <div class="alt_related">
-                    <h3>Related Views</h3>
-                    <div class="cate">
-                        <h5>Add Categorical Fields</h5>
-                        <!-- area that display related categorical charts in chosen encoding -->
-                        <div id="cate_img">
-                        </div>
-                    </div>
+                    <!-- ====== header, buttons and content for alternative encoding ===== -->
+                    <h5 id="a">Alternative Encodings</h5>
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                        onClick="document.querySelector('#q').scrollIntoView();">
+                        Go to Quantitative Views
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                        onClick="document.querySelector('#c').scrollIntoView();">
+                        Go to Categorical Views
+                    </button>
+                    <div class="alternative_encodings"></div>
 
-                    <div class="quant">
-                        <h5>Add Quantitative Fields</h5>
-                        <!-- area that display related quantitative charts in chosen encoding -->
-                        <div id="quant_img">
-                        </div>
-                    </div>
+                    <!-- ==== header, buttons and content for ading one Categorical Field ==== -->
+                    <h5 id="c">Add One Categorical Field</h5>
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                        onClick="document.querySelector('#a').scrollIntoView();">
+                        Go to Alternative Encodings
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                        onClick="document.querySelector('#q').scrollIntoView();">
+                        Go to Quantitative Views
+                    </button>
+                    <div class="categorical_views"></div>
+
+                    <!-- ==== header, buttons and content for ading one Quantitative Field ==== -->
+                    <h5 id="q">Add One Quantitative Field</h5>
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                        onClick="document.querySelector('#a').scrollIntoView();">
+                        Go to Alternative Encodings
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                        onClick="document.querySelector('#c').scrollIntoView();">
+                        Go to Categorical Views
+                    </button>
+                    <div class="quantitative_views"></div>
                 </div>
-
 
             </div>
         </div>
 
     </main>
-    <script src="../static/js/v4.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="../static/js/v4bundle.js"></script>
+    <script>
+        // function that plots the speciied view
+        function plot(VlSpec) {
+            vegaEmbed(`#main`, VlSpec);
+        }
+        // function that plots the related categorical views in corresponding divs
+        function plotRec(id, VlSpec) {
+            if (
+                id == "" ||
+                id == undefined ||
+                id == null ||
+                VlSpec == undefined ||
+                VlSpec == null
+            )
+                return;
+            // console.log(`plotting in #${id}..`);
+            vegaEmbed(`#${id}`, VlSpec);
+        }
+    </script>
     <!-- Bootstrap JS -->
     <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">

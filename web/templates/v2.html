@@ -100,18 +100,43 @@
         <h3>Related Views</h3>
         <div class="related_views">
           <div class="related_main_area" style="height: max-content; display: none;">
+
+            <!-- ====== header, buttons and content for alternative encoding ===== -->
+            <h5 id="a">Alternative Encodings</h5>
+            <button type="button" class="btn btn-outline-secondary btn-sm"
+              onClick="document.querySelector('#q').scrollIntoView();">
+              Go to Quantitative Views
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm"
+              onClick="document.querySelector('#c').scrollIntoView();">
+              Go to Categorical Views
+            </button>
+            <div class="alternative_encodings"></div>
+
+            <!-- ==== header, buttons and content for ading one Categorical Field ==== -->
             <h5 id="c">Add One Categorical Field</h5>
+            <button type="button" class="btn btn-outline-secondary btn-sm"
+              onClick="document.querySelector('#a').scrollIntoView();">
+              Go to Alternative Encodings
+            </button>
             <button type="button" class="btn btn-outline-secondary btn-sm"
               onClick="document.querySelector('#q').scrollIntoView();">
               Go to Quantitative Views
             </button>
             <div class="categorical_views"></div>
+
+            <!-- ==== header, buttons and content for ading one Quantitative Field ==== -->
             <h5 id="q">Add One Quantitative Field</h5>
+            <button type="button" class="btn btn-outline-secondary btn-sm"
+              onClick="document.querySelector('#a').scrollIntoView();">
+              Go to Alternative Encodings
+            </button>
             <button type="button" class="btn btn-outline-secondary btn-sm"
               onClick="document.querySelector('#c').scrollIntoView();">
               Go to Categorical Views
             </button>
             <div class="quantitative_views"></div>
+
           </div>
         </div>
       </div>
